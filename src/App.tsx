@@ -1,27 +1,24 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Recherche from './components/Recherche';
-import {fetchData} from './service/pokeAPI';
-import DataPokemon from './components/DataPokemon';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import RecherchePage from "./pages/RecherchePage";
+import FavorisPage from "./pages/FavorisPage";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const App: React.FC = () => {
-  const [pokemon, setPokemon] = useState('');
-
-  const handleRecherche = async (nom: string) => {
-
-    const response = await fetchData(nom);
-    setPokemon(response);
-  }
-
- return (
-  <div>
-    <Recherche getByName={handleRecherche}/>
-
-    {pokemon && <DataPokemon pokemon={pokemon}/>}
-  </div>
- )
-
-}
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="favoris" element={<FavorisPage />} />
+          <Route path="recherche" element={<RecherchePage />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
